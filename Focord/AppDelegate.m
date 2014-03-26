@@ -9,68 +9,10 @@
 #import "AppDelegate.h"
 #import "CollectionViewController.h"
 @interface AppDelegate()
-@property (strong,readonly,nonatomic)NSManagedObjectModel* managedObjectModel;
-@property(strong,readonly,nonatomic)NSManagedObjectContext* managedObjectContext;
-@property(strong,readonly,nonatomic)NSPersistentStoreCoordinator* persistentStoreCoordinator;
 - (NSURL *)applicationDocumentsDirectory;
 @end
 
 @implementation AppDelegate
-@synthesize managedObjectModel=_managedObjectModel, managedObjectContext=_managedObjectContext, persistentStoreCoordinator=_persistentStoreCoordinator;
-
-- (NSManagedObjectContext *) managedObjectContext
-{
-  if (_managedObjectContext != nil) {
-    return _managedObjectContext;
-  }
-  NSPersistentStoreCoordinator* coordinator = [self persistentStoreCoordinator];
-  if(coordinator != nil){
-    _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    [_managedObjectContext setPersistentStoreCoordinator: coordinator];
-  }
-  //NSLog(@"==>%@",_managedObjectContext);
-  return _managedObjectContext;
-}
-
--(NSManagedObjectModel *)managedObjectModel
-{
-  if(!_managedObjectModel){
-    //It's not a recommended way
-    //NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Focord" withExtension:@"momd"];
-    //_managedObjectModel  = [[NSManagedObjectModel alloc]initWithContentsOfURL:modelURL];
-    _managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
-  }
-  return _managedObjectModel;
-}
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
-{
-  if (_persistentStoreCoordinator != nil) {
-    return _persistentStoreCoordinator;
-  }
-  NSURL* storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"CoreDataFocord.CDStore"];
-  NSFileManager* fileManager = [NSFileManager defaultManager];
-  if(![fileManager fileExistsAtPath:[storeURL path]]){
-    NSURL* defaultStoreURL = [[NSBundle mainBundle]URLForResource:@"CoreDataFocord" withExtension:@"CDStore"];
-    if(defaultStoreURL){
-      [fileManager copyItemAtURL:defaultStoreURL toURL:storeURL error:NULL];
-    }
-  }
-  NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
-  _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]initWithManagedObjectModel:[self managedObjectModel]];
-  NSError* error;
-  if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]){
-    NSLog(@"oops persistenSotreCoordinator crashed %@",error);
-    
-    //This's a ugly fixed,since the model would changed sometimes,and it needs to migrate,so just delete the old one...
-    NSError* fileDeleteError;
-    if([fileManager fileExistsAtPath:[storeURL path]]){
-      [fileManager removeItemAtPath:[storeURL path] error:&fileDeleteError];
-    }
-    [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error];
-  }
-  return _persistentStoreCoordinator;
-}
-
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory
 {
@@ -80,8 +22,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-  CollectionViewController* cvc = (CollectionViewController*)self.window.rootViewController;
-  cvc.managedObjectContext = self.managedObjectContext;
+  //CollectionViewController* cvc = (CollectionViewController*)self.window.rootViewController;
+  //cvc.managedObjectContext = self.managedObjectContext;
     return YES;
 }
 - (void)applicationWillResignActive:(UIApplication *)application

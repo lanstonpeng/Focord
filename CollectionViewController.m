@@ -21,7 +21,6 @@
 #define RECORD_MOTION @"up"
 
 @interface CollectionViewController ()
-@property (strong,nonatomic)NSFetchedResultsController* fetchResultsController;
 @property  (strong,nonatomic)NSArray* results;
 @property (strong,nonatomic)ArrayDataSource* recordDataSource;
 @property (strong,nonatomic)NSArray*  records;
@@ -98,55 +97,6 @@ static const CGSize DROP_SIZE = { 40, 40 };
   [super viewWillAppear:animated];
   [self.myCollection reloadData];
 }
--(void)fetchRecords
-{
-  NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]init];
-  NSEntityDescription* des = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:self.managedObjectContext];
-  [fetchRequest setEntity:des];
-  NSSortDescriptor* dateDescriptor = [[NSSortDescriptor alloc]initWithKey:@"startTime" ascending:YES];
-  fetchRequest.sortDescriptors = @[dateDescriptor];
-  NSFetchedResultsController* fetchrc = [[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-  NSArray* result = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    NSLog(@"%d",(int)[result count]);
-    for (Record *record in result) {
-        [self.managedObjectContext deleteObject:record];
-    }
-}
--(void)deleteRecords
-{
-
-}
--(NSFetchedResultsController *)fetchResultsController
-{
-  if(_fetchResultsController){
-    return _fetchResultsController;
-  }
-  NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]init];
-  NSEntityDescription* des = [NSEntityDescription entityForName:@"DayContainer" inManagedObjectContext:self.managedObjectContext];
-  [fetchRequest setEntity:des];
-  NSSortDescriptor* dateDescriptor = [[NSSortDescriptor alloc]initWithKey:@"date" ascending:YES];
-  fetchRequest.sortDescriptors = @[dateDescriptor];
-  
-  //NSLog(@"executeFetchRequest Result %@",result);
-  //initialized a record
-  DayContainer* dayContainer = [[DayContainer alloc]initWithEntity:des insertIntoManagedObjectContext:self.managedObjectContext];
-  dayContainer.date  = [[NSDate alloc]init];
-  //NSDate *yesterday = [NSDate dateWithTimeIntervalSinceNow:-86400];
-  //dayContainer.date = yesterday;
-//  NSLog(@"%@",dayContainer.date);
-//  NSLog(@"%@",yesterday);
-//  NSLog(@"%d",dayContainer.date == yesterday);
-  [DayContainer dayWithInfo:dayContainer];
-    self.currentDayContainer  = dayContainer;
-    
-  _fetchResultsController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-  NSArray* result = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    self.results = result;
-  return _fetchResultsController;
-}
-- (void)setupView
-{
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -168,36 +118,19 @@ static const CGSize DROP_SIZE = { 40, 40 };
         else if([type isEqualToString:MOTION_OTHER]){
             [counter stopCount];
             //NSTimeInterval duration = counter.duration;
-            NSEntityDescription* des = [NSEntityDescription entityForName:@"Record" inManagedObjectContext:self.managedObjectContext];
-            Record* record = [[Record alloc]initWithEntity:des insertIntoManagedObjectContext:self.managedObjectContext];
-            record.startTime = [[NSNumber alloc]initWithDouble:counter.startTime];
-            record.endTime = [[NSNumber alloc]initWithDouble:counter.endTime];
-            record.recordDescription  = MOTION_OTHER;
-            [Record recordWithDayContainer:record withDayContainer:self.currentDayContainer];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self drop];
             });
         }
     }];
     [montion startMonitor];
-    NSError* error;
-    [self.fetchResultsController performFetch:&error];
     collectionCellConfigure configureBlock = ^(id cell,id item,NSInteger idx){
         ItemCell* itemcell = (ItemCell*)cell;
-        DayContainer* aDay = (DayContainer*)item;
-        NSString* intervalResult;
-        for(Record* record in aDay.record){
-            NSTimeInterval interval = [record.endTime doubleValue] - [record.startTime doubleValue];
-            [intervalResult stringByAppendingString:[NSString stringWithFormat:@"%f",interval ]];
-        }
-        NSDateFormatter* formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"MM-dd HH:mm:ss"];
-        NSString* text = [NSString stringWithFormat:@"%@ with %@",[formatter stringFromDate:aDay.date],intervalResult];
+        NSString* text = @"testing";
         [itemcell setText:text];
         [itemcell setBackgroundColor:[UIColor blackColor]];
-        //[itemcell setTintColor:[UIColor whiteColor]];
     };
-    [self fetchRecords];
+    self.results = @[@1,@2];
     self.recordDataSource = [[ArrayDataSource alloc]initWithItems:self.results cellIdentifier:@"cell" cellConfigurateBlock:configureBlock];
     self.myCollection.dataSource = self.recordDataSource;
 }

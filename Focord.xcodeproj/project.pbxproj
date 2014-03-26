@@ -23,7 +23,6 @@
 		9D63023018D176CF007A53F6 /* DayContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D63022F18D176CF007A53F6 /* DayContainer.m */; };
 		9D8AB4CB18ADEE6300CDA6ED /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8AB4CA18ADEE6300CDA6ED /* MapKit.framework */; };
 		9D8AB4D118AE4C3100CDA6ED /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AB4D018AE4C3000CDA6ED /* CollectionViewController.m */; };
-		9D8AB4D418AE51D100CDA6ED /* Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8AB4D318AE51D100CDA6ED /* Cell.m */; };
 		9DA2EEC618A4CF040077312E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2EEC518A4CF040077312E /* Foundation.framework */; };
 		9DA2EEC818A4CF040077312E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2EEC718A4CF040077312E /* CoreGraphics.framework */; };
 		9DA2EECA18A4CF040077312E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2EEC918A4CF040077312E /* UIKit.framework */; };
@@ -79,8 +78,6 @@
 		9D8AB4CA18ADEE6300CDA6ED /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9D8AB4CF18AE4C3000CDA6ED /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionViewController.h; path = ../CollectionViewController.h; sourceTree = "<group>"; };
 		9D8AB4D018AE4C3000CDA6ED /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionViewController.m; path = ../CollectionViewController.m; sourceTree = "<group>"; };
-		9D8AB4D218AE51D100CDA6ED /* Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cell.h; sourceTree = "<group>"; };
-		9D8AB4D318AE51D100CDA6ED /* Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cell.m; sourceTree = "<group>"; };
 		9DA2EEC218A4CF040077312E /* Focord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Focord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DA2EEC518A4CF040077312E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9DA2EEC718A4CF040077312E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -234,8 +231,6 @@
 				9D5EF91618B2C91E00CFD3F6 /* ViewController */,
 				9D5EF91518B2C90F00CFD3F6 /* Monitor */,
 				9DA2EED718A4CF040077312E /* Main.storyboard */,
-				9D8AB4D218AE51D100CDA6ED /* Cell.h */,
-				9D8AB4D318AE51D100CDA6ED /* Cell.m */,
 				9D463BFB18CEABA80061A072 /* ItemCell.h */,
 				9D463BFC18CEABA80061A072 /* ItemCell.m */,
 				9DA2EEDD18A4CF040077312E /* Images.xcassets */,
@@ -380,7 +375,6 @@
 				9D463BFD18CEABA80061A072 /* ItemCell.m in Sources */,
 				9D5EF91418B2C90900CFD3F6 /* LocationMonitor.m in Sources */,
 				9D63022D18D176CE007A53F6 /* Record.m in Sources */,
-				9D8AB4D418AE51D100CDA6ED /* Cell.m in Sources */,
 				9D5EF92818B2CAB200CFD3F6 /* Record+Create.m in Sources */,
 				9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */,
 				9D4DBBDD18DD318400DFBC68 /* ArrayDataSource.m in Sources */,
