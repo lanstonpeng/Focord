@@ -7,21 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
 @class Record;
+@interface DayContainer :NSObject
 
-@interface DayContainer : NSManagedObject
+@property (nonatomic,strong)  NSNumber* dayID;
+@property (nonatomic, strong) NSDate * date;
+@property (nonatomic, strong) NSSet *record;
 
-@property (nonatomic, retain) NSDate * date;
-@property (nonatomic, retain) NSSet *record;
-@end
-
-@interface DayContainer (CoreDataGeneratedAccessors)
-
-- (void)addRecordObject:(Record *)value;
-- (void)removeRecordObject:(Record *)value;
-- (void)addRecord:(NSSet *)values;
-- (void)removeRecord:(NSSet *)values;
-
++ (void)addDayContainer:(DayContainer*)dayContainer;
++ (void)removeDayContainer:(NSNumber*)dayID;
++ (void)searchDayContainer:(NSNumber*)dayID;
++ (void)updateDayContainer:(DayContainer*)dayContainer;
 @end

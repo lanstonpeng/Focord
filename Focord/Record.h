@@ -7,17 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
 @class DayContainer;
 
-@interface Record : NSManagedObject
+@interface Record : NSObject
 
-@property (nonatomic, retain) NSNumber * endTime;
-@property (nonatomic, retain) NSNumber * latitude;
-@property (nonatomic, retain) NSNumber * longitude;
-@property (nonatomic, retain) NSString * recordDescription;
-@property (nonatomic, retain) NSNumber * startTime;
-@property (nonatomic, retain) DayContainer *belongsTo;
+@property (nonatomic, strong) NSNumber*  recordID;
+@property (nonatomic, strong) NSNumber * endTime;
+@property (nonatomic, strong) NSNumber * latitude;
+@property (nonatomic, strong) NSNumber * longitude;
+@property (nonatomic, strong) NSString * recordDescription;
+@property (nonatomic, strong) NSNumber * startTime;
 
 @end

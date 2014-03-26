@@ -11,12 +11,4 @@
 
 
 @implementation Record
-
-@dynamic endTime;
-@dynamic latitude;
-@dynamic longitude;
-@dynamic recordDescription;
-@dynamic startTime;
-@dynamic belongsTo;
-
 @end

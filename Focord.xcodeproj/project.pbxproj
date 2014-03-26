@@ -7,17 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D0B877418E274380012E9C4 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0B877318E274380012E9C4 /* Database.m */; };
 		9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D160C2C18E00EB0003A2289 /* DropBehaviour.m */; };
 		9D1F1D7418D0AD6A00684401 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1F1D7318D0AD6A00684401 /* CoreData.framework */; };
 		9D463BFD18CEABA80061A072 /* ItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D463BFC18CEABA80061A072 /* ItemCell.m */; };
 		9D4DBBDD18DD318400DFBC68 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DBBDC18DD318400DFBC68 /* ArrayDataSource.m */; };
 		9D5EF8F418B1A4CD00CFD3F6 /* collectionFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF8F318B1A4CD00CFD3F6 /* collectionFlowLayout.m */; };
-		9D5EF8F818B2C38C00CFD3F6 /* FocordItem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF8F618B2C38C00CFD3F6 /* FocordItem.xcdatamodeld */; };
 		9D5EF90218B2C5F300CFD3F6 /* Counter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF90118B2C5F300CFD3F6 /* Counter.m */; };
 		9D5EF91118B2C8D000CFD3F6 /* MotionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF91018B2C8D000CFD3F6 /* MotionMonitor.m */; };
 		9D5EF91418B2C90900CFD3F6 /* LocationMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF91318B2C90900CFD3F6 /* LocationMonitor.m */; };
-		9D5EF92518B2CA9D00CFD3F6 /* DayContainer+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF92418B2CA9D00CFD3F6 /* DayContainer+Create.m */; };
-		9D5EF92818B2CAB200CFD3F6 /* Record+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF92718B2CAB200CFD3F6 /* Record+Create.m */; };
 		9D5EF92B18B2DC5800CFD3F6 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF92A18B2DC5800CFD3F6 /* Util.m */; };
 		9D63022D18D176CE007A53F6 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D63022C18D176CE007A53F6 /* Record.m */; };
 		9D63023018D176CF007A53F6 /* DayContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D63022F18D176CF007A53F6 /* DayContainer.m */; };
@@ -49,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9D0B877218E274380012E9C4 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		9D0B877318E274380012E9C4 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
 		9D160C2B18E00EB0003A2289 /* DropBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBehaviour.h; path = ../DropBehaviour.h; sourceTree = "<group>"; };
 		9D160C2C18E00EB0003A2289 /* DropBehaviour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBehaviour.m; path = ../DropBehaviour.m; sourceTree = "<group>"; };
 		9D1F1D7318D0AD6A00684401 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -58,17 +58,12 @@
 		9D4DBBDC18DD318400DFBC68 /* ArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayDataSource.m; sourceTree = "<group>"; };
 		9D5EF8F218B1A4CD00CFD3F6 /* collectionFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = collectionFlowLayout.h; sourceTree = "<group>"; };
 		9D5EF8F318B1A4CD00CFD3F6 /* collectionFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = collectionFlowLayout.m; sourceTree = "<group>"; };
-		9D5EF8F718B2C38C00CFD3F6 /* FocordItem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FocordItem.xcdatamodel; sourceTree = "<group>"; };
 		9D5EF90018B2C5F300CFD3F6 /* Counter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Counter.h; sourceTree = "<group>"; };
 		9D5EF90118B2C5F300CFD3F6 /* Counter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Counter.m; sourceTree = "<group>"; };
 		9D5EF90F18B2C8D000CFD3F6 /* MotionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MotionMonitor.h; sourceTree = "<group>"; };
 		9D5EF91018B2C8D000CFD3F6 /* MotionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MotionMonitor.m; sourceTree = "<group>"; };
 		9D5EF91218B2C90900CFD3F6 /* LocationMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationMonitor.h; sourceTree = "<group>"; };
 		9D5EF91318B2C90900CFD3F6 /* LocationMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationMonitor.m; sourceTree = "<group>"; };
-		9D5EF92318B2CA9D00CFD3F6 /* DayContainer+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DayContainer+Create.h"; sourceTree = "<group>"; };
-		9D5EF92418B2CA9D00CFD3F6 /* DayContainer+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DayContainer+Create.m"; sourceTree = "<group>"; };
-		9D5EF92618B2CAB200CFD3F6 /* Record+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Record+Create.h"; sourceTree = "<group>"; };
-		9D5EF92718B2CAB200CFD3F6 /* Record+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Record+Create.m"; sourceTree = "<group>"; };
 		9D5EF92918B2DC5800CFD3F6 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		9D5EF92A18B2DC5800CFD3F6 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		9D63022B18D176CE007A53F6 /* Record.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Record.h; sourceTree = "<group>"; };
@@ -148,10 +143,6 @@
 				9D63022F18D176CF007A53F6 /* DayContainer.m */,
 				9D63022B18D176CE007A53F6 /* Record.h */,
 				9D63022C18D176CE007A53F6 /* Record.m */,
-				9D5EF92318B2CA9D00CFD3F6 /* DayContainer+Create.h */,
-				9D5EF92418B2CA9D00CFD3F6 /* DayContainer+Create.m */,
-				9D5EF92618B2CAB200CFD3F6 /* Record+Create.h */,
-				9D5EF92718B2CAB200CFD3F6 /* Record+Create.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -242,9 +233,10 @@
 		9DA2EECC18A4CF040077312E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9D5EF8F618B2C38C00CFD3F6 /* FocordItem.xcdatamodeld */,
 				9DA2EED418A4CF040077312E /* AppDelegate.h */,
 				9DA2EED518A4CF040077312E /* AppDelegate.m */,
+				9D0B877218E274380012E9C4 /* Database.h */,
+				9D0B877318E274380012E9C4 /* Database.m */,
 				9DA2EECD18A4CF040077312E /* Focord-Info.plist */,
 				9DA2EECE18A4CF040077312E /* InfoPlist.strings */,
 				9DA2EED118A4CF040077312E /* main.m */,
@@ -375,16 +367,14 @@
 				9D463BFD18CEABA80061A072 /* ItemCell.m in Sources */,
 				9D5EF91418B2C90900CFD3F6 /* LocationMonitor.m in Sources */,
 				9D63022D18D176CE007A53F6 /* Record.m in Sources */,
-				9D5EF92818B2CAB200CFD3F6 /* Record+Create.m in Sources */,
 				9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */,
+				9D0B877418E274380012E9C4 /* Database.m in Sources */,
 				9D4DBBDD18DD318400DFBC68 /* ArrayDataSource.m in Sources */,
 				9D5EF8F418B1A4CD00CFD3F6 /* collectionFlowLayout.m in Sources */,
 				9D8AB4D118AE4C3100CDA6ED /* CollectionViewController.m in Sources */,
 				9D5EF92B18B2DC5800CFD3F6 /* Util.m in Sources */,
 				9D5EF91118B2C8D000CFD3F6 /* MotionMonitor.m in Sources */,
 				9DA2EED618A4CF040077312E /* AppDelegate.m in Sources */,
-				9D5EF92518B2CA9D00CFD3F6 /* DayContainer+Create.m in Sources */,
-				9D5EF8F818B2C38C00CFD3F6 /* FocordItem.xcdatamodeld in Sources */,
 				9D5EF90218B2C5F300CFD3F6 /* Counter.m in Sources */,
 				9DA2EED218A4CF040077312E /* main.m in Sources */,
 			);
@@ -609,19 +599,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		9D5EF8F618B2C38C00CFD3F6 /* FocordItem.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				9D5EF8F718B2C38C00CFD3F6 /* FocordItem.xcdatamodel */,
-			);
-			currentVersion = 9D5EF8F718B2C38C00CFD3F6 /* FocordItem.xcdatamodel */;
-			path = FocordItem.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 9DA2EEBA18A4CF040077312E /* Project object */;
 }
