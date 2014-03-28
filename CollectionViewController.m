@@ -9,15 +9,14 @@
 #import "CollectionViewController.h"
 #import "ItemCell.h"
 #import "collectionFlowLayout.h"
-#import "DayContainer+Create.h"
-#import "Record+Create.h"
 #import "Util.h"
 #import "LocationMonitor.h"
 #import "MotionMonitor.h"
 #import "Counter.h"
 #import "ArrayDataSource.h"
 #import "DropBehaviour.h"
-
+#import "DayContainer.h"
+#import "Record.h"
 #define RECORD_MOTION @"up"
 
 @interface CollectionViewController ()
@@ -117,6 +116,7 @@ static const CGSize DROP_SIZE = { 40, 40 };
         }
         else if([type isEqualToString:MOTION_OTHER]){
             [counter stopCount];
+            //Record* record = [[Record alloc]init];
             //NSTimeInterval duration = counter.duration;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self drop];
@@ -130,9 +130,23 @@ static const CGSize DROP_SIZE = { 40, 40 };
         [itemcell setText:text];
         [itemcell setBackgroundColor:[UIColor blackColor]];
     };
-    self.results = @[@1,@2];
+    DayContainer* dayContainer = [[DayContainer alloc]init];
+    dayContainer.dayID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    dayContainer.date = [dateFormatter stringFromDate:[NSDate date]];
+    dayContainer.record = @[];
+    [DayContainer addDayContainer:dayContainer];
+    
+    self.results = [DayContainer getAllDayContainer];
     self.recordDataSource = [[ArrayDataSource alloc]initWithItems:self.results cellIdentifier:@"cell" cellConfigurateBlock:configureBlock];
     self.myCollection.dataSource = self.recordDataSource;
+    
+    /*
+    DataAbstract* da = [DataAbstract sharedData];
+    [da removeDataFile];
+     */
+    //[DayContainer searchDayContainer:@1];
 }
 -(void)refreshData
 {

@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D0B877418E274380012E9C4 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0B877318E274380012E9C4 /* Database.m */; };
+		9D0B877718E2781A0012E9C4 /* DataAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0B877618E2781A0012E9C4 /* DataAbstract.m */; };
+		9D0B877A18E27D470012E9C4 /* DataAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0B877918E27D470012E9C4 /* DataAdapter.m */; };
 		9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D160C2C18E00EB0003A2289 /* DropBehaviour.m */; };
 		9D1F1D7418D0AD6A00684401 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1F1D7318D0AD6A00684401 /* CoreData.framework */; };
 		9D463BFD18CEABA80061A072 /* ItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D463BFC18CEABA80061A072 /* ItemCell.m */; };
@@ -47,8 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		9D0B877218E274380012E9C4 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
-		9D0B877318E274380012E9C4 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		9D0B877518E2781A0012E9C4 /* DataAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataAbstract.h; sourceTree = "<group>"; };
+		9D0B877618E2781A0012E9C4 /* DataAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataAbstract.m; sourceTree = "<group>"; };
+		9D0B877818E27D470012E9C4 /* DataAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataAdapter.h; path = ../DataAdapter.h; sourceTree = "<group>"; };
+		9D0B877918E27D470012E9C4 /* DataAdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataAdapter.m; path = ../DataAdapter.m; sourceTree = "<group>"; };
 		9D160C2B18E00EB0003A2289 /* DropBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBehaviour.h; path = ../DropBehaviour.h; sourceTree = "<group>"; };
 		9D160C2C18E00EB0003A2289 /* DropBehaviour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBehaviour.m; path = ../DropBehaviour.m; sourceTree = "<group>"; };
 		9D1F1D7318D0AD6A00684401 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -139,6 +142,8 @@
 		9D5EF8FF18B2C53C00CFD3F6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9D0B877518E2781A0012E9C4 /* DataAbstract.h */,
+				9D0B877618E2781A0012E9C4 /* DataAbstract.m */,
 				9D63022E18D176CF007A53F6 /* DayContainer.h */,
 				9D63022F18D176CF007A53F6 /* DayContainer.m */,
 				9D63022B18D176CE007A53F6 /* Record.h */,
@@ -233,10 +238,10 @@
 		9DA2EECC18A4CF040077312E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9D0B877818E27D470012E9C4 /* DataAdapter.h */,
+				9D0B877918E27D470012E9C4 /* DataAdapter.m */,
 				9DA2EED418A4CF040077312E /* AppDelegate.h */,
 				9DA2EED518A4CF040077312E /* AppDelegate.m */,
-				9D0B877218E274380012E9C4 /* Database.h */,
-				9D0B877318E274380012E9C4 /* Database.m */,
 				9DA2EECD18A4CF040077312E /* Focord-Info.plist */,
 				9DA2EECE18A4CF040077312E /* InfoPlist.strings */,
 				9DA2EED118A4CF040077312E /* main.m */,
@@ -366,14 +371,15 @@
 				9D63023018D176CF007A53F6 /* DayContainer.m in Sources */,
 				9D463BFD18CEABA80061A072 /* ItemCell.m in Sources */,
 				9D5EF91418B2C90900CFD3F6 /* LocationMonitor.m in Sources */,
+				9D0B877A18E27D470012E9C4 /* DataAdapter.m in Sources */,
 				9D63022D18D176CE007A53F6 /* Record.m in Sources */,
 				9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */,
-				9D0B877418E274380012E9C4 /* Database.m in Sources */,
 				9D4DBBDD18DD318400DFBC68 /* ArrayDataSource.m in Sources */,
 				9D5EF8F418B1A4CD00CFD3F6 /* collectionFlowLayout.m in Sources */,
 				9D8AB4D118AE4C3100CDA6ED /* CollectionViewController.m in Sources */,
 				9D5EF92B18B2DC5800CFD3F6 /* Util.m in Sources */,
 				9D5EF91118B2C8D000CFD3F6 /* MotionMonitor.m in Sources */,
+				9D0B877718E2781A0012E9C4 /* DataAbstract.m in Sources */,
 				9DA2EED618A4CF040077312E /* AppDelegate.m in Sources */,
 				9D5EF90218B2C5F300CFD3F6 /* Counter.m in Sources */,
 				9DA2EED218A4CF040077312E /* main.m in Sources */,

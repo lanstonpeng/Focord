@@ -8,7 +8,21 @@
 
 #import "Record.h"
 #import "DayContainer.h"
-
-
+#define DAYCONTAINER_DATE @"date"
 @implementation Record
++(void)addRecord:(Record*)record belongsToDate:(NSString*)dateString
+{
+    DataAbstract* da = [DataAbstract sharedData];
+    id result = [da searchItem:DAYCONTAINER_DATE value:dateString];
+    if(!result){
+        DayContainer* dayContainer = (DayContainer*)result;
+        [dayContainer.record insertObject:record atIndex:0];
+    }
+}
++(void)removeRecord:(NSNumber*)recordID{
+}
++(NSArray*)getAllRecords{
+    NSArray* result;
+    return result;
+}
 @end

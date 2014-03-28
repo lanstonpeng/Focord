@@ -7,16 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DataAbstract.h"
 
 @class Record;
 @interface DayContainer :NSObject
-
 @property (nonatomic,strong)  NSNumber* dayID;
-@property (nonatomic, strong) NSDate * date;
-@property (nonatomic, strong) NSSet *record;
+@property (nonatomic, strong) NSString * date;
+@property (nonatomic, strong) NSMutableArray *record;
 
 + (void)addDayContainer:(DayContainer*)dayContainer;
 + (void)removeDayContainer:(NSNumber*)dayID;
 + (void)searchDayContainer:(NSNumber*)dayID;
-+ (void)updateDayContainer:(DayContainer*)dayContainer;
++ (void)updateDayContainer:(NSNumber*)dayID withDayContainer:(DayContainer*)dayContainer;
++ (NSArray*)getAllDayContainer;
 @end

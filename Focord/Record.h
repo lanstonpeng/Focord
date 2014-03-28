@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class DayContainer;
+#import "DataAbstract.h"
 
 @interface Record : NSObject
 
@@ -19,4 +18,7 @@
 @property (nonatomic, strong) NSString * recordDescription;
 @property (nonatomic, strong) NSNumber * startTime;
 
++(void)addRecord:(Record*)record belongsToDate:(NSString*)dateString;
++(void)removeRecord:(NSNumber*)recordID;
++(NSArray*)getAllRecords;
 @end

@@ -1,5 +1,5 @@
 //
-//  Database.h
+//  DataAdapter.h
 //  Focord
 //
 //  Created by Lanston Peng on 3/26/14.
@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DayContainer.h"
-#import "Record.h"
-@interface Database : NSObject
+
+@interface DataAdapter : NSObject
+
 @end
