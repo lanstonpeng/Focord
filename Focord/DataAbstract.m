@@ -9,8 +9,6 @@
 #import "DataAbstract.h"
 #import "objc/runtime.h"
 
-#define DAYID @"dayID"
-
 @interface DataAbstract()
 @property (strong,nonatomic)NSMutableArray* dayContainerData;
 @end
@@ -64,13 +62,13 @@
 -(BOOL)updateItem:(id)dayContainer{
     NSMutableArray* allResults = [self getAllItem];
     for(NSDictionary* item in allResults){
-        if([[item valueForKey:DAYID] isEqualToString:[[dayContainer valueForKey:DAYID] stringValue]]){
+        if([[[item valueForKey:@"dayID"] stringValue] isEqualToString:[[dayContainer valueForKey:@"dayID"] stringValue]]){
             NSMutableDictionary* dict = [self InstanceToDictionary:dayContainer];
             [allResults replaceObjectAtIndex:[allResults indexOfObject:item] withObject:dict];
-            return YES;
+            break;
         }
     }
-    return NO;
+    return YES;
 }
 -(id)searchItem:(NSString*)key value:(NSString *)value
 {

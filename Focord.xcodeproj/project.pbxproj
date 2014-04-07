@@ -35,6 +35,8 @@
 		9DA2EEE718A4CF040077312E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2EEC918A4CF040077312E /* UIKit.framework */; };
 		9DA2EEEF18A4CF040077312E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DA2EEED18A4CF040077312E /* InfoPlist.strings */; };
 		9DA2EEF118A4CF040077312E /* FocordTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA2EEF018A4CF040077312E /* FocordTests.m */; };
+		9DE7E36118F28280009C3806 /* DeviceInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9DE7E36018F28280009C3806 /* DeviceInfo.mm */; };
+		9DE7E36418F282A1009C3806 /* UIDevice+screenType.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DE7E36318F282A1009C3806 /* UIDevice+screenType.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +95,10 @@
 		9DA2EEEC18A4CF040077312E /* FocordTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FocordTests-Info.plist"; sourceTree = "<group>"; };
 		9DA2EEEE18A4CF040077312E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9DA2EEF018A4CF040077312E /* FocordTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FocordTests.m; sourceTree = "<group>"; };
+		9DE7E35F18F28280009C3806 /* DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceInfo.h; sourceTree = "<group>"; };
+		9DE7E36018F28280009C3806 /* DeviceInfo.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DeviceInfo.mm; sourceTree = "<group>"; };
+		9DE7E36218F282A1009C3806 /* UIDevice+screenType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+screenType.h"; sourceTree = "<group>"; };
+		9DE7E36318F282A1009C3806 /* UIDevice+screenType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+screenType.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +185,10 @@
 		9D5EF92C18B2DC5D00CFD3F6 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				9DE7E35F18F28280009C3806 /* DeviceInfo.h */,
+				9DE7E36218F282A1009C3806 /* UIDevice+screenType.h */,
+				9DE7E36318F282A1009C3806 /* UIDevice+screenType.m */,
+				9DE7E36018F28280009C3806 /* DeviceInfo.mm */,
 				9D5EF92918B2DC5800CFD3F6 /* Util.h */,
 				9D5EF92A18B2DC5800CFD3F6 /* Util.m */,
 			);
@@ -369,11 +379,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D63023018D176CF007A53F6 /* DayContainer.m in Sources */,
+				9DE7E36118F28280009C3806 /* DeviceInfo.mm in Sources */,
 				9D463BFD18CEABA80061A072 /* ItemCell.m in Sources */,
 				9D5EF91418B2C90900CFD3F6 /* LocationMonitor.m in Sources */,
 				9D0B877A18E27D470012E9C4 /* DataAdapter.m in Sources */,
 				9D63022D18D176CE007A53F6 /* Record.m in Sources */,
 				9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */,
+				9DE7E36418F282A1009C3806 /* UIDevice+screenType.m in Sources */,
 				9D4DBBDD18DD318400DFBC68 /* ArrayDataSource.m in Sources */,
 				9D5EF8F418B1A4CD00CFD3F6 /* collectionFlowLayout.m in Sources */,
 				9D8AB4D118AE4C3100CDA6ED /* CollectionViewController.m in Sources */,

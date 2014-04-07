@@ -6,16 +6,17 @@
 //  Copyright (c) 2014 Vtmer. All rights reserved.
 //
 
-#import "DayContainer.h"
 #import "Record.h"
 #import "objc/runtime.h"
 @implementation DayContainer
-+ (void)addDayContainer:(DayContainer*)dayContainer{
++ (DayContainer*)addDayContainer:(DayContainer*)dayContainer{
     DataAbstract* da = [DataAbstract sharedData];
-    if(![da searchItem:@"date" value:dayContainer.date])
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    if(! (dic = [da searchItem:@"date" value:dayContainer.date]))
     {
         [da addItem:dayContainer];
     }
+    return dayContainer;
 }
 
 + (void)searchDayContainer:(NSNumber*)dayID{
@@ -24,11 +25,24 @@
     
     DataAbstract* da = [DataAbstract sharedData];
     return [da getAllItem];
-    
 }
 + (void)updateDayContainer:(NSNumber*)dayID withDayContainer:(DayContainer*)dayContainer{}
 + (void)removeDayContainer:(NSNumber*)dayID
 {
     
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder{
+    if(self = [super init]){
+        self.dayID = [aDecoder decodeObjectForKey:@"dayID"];
+        self.date = [aDecoder decodeObjectForKey:@"date"];
+        self.record = [aDecoder decodeObjectForKey:@"record"];
+    }
+    return self;
+}
+- (void)encodeWithCoder:(NSCoder *)aCoder{
+    [aCoder encodeObject:self.dayID forKey:@"dayID"];
+    [aCoder encodeObject:self.date forKey:@"date"];
+    [aCoder encodeObject:self.record forKey:@"record"];
 }
 @end

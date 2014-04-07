@@ -17,6 +17,8 @@
 #import "DropBehaviour.h"
 #import "DayContainer.h"
 #import "Record.h"
+#import "DeviceInfo.h"
+
 #define RECORD_MOTION @"up"
 
 @interface CollectionViewController ()
@@ -47,6 +49,13 @@ static const CGSize DROP_SIZE = { 40, 40 };
         [self.animator addBehavior:_dropBehaviour];
     }
     return _dropBehaviour;
+}
+-(DayContainer*)currentDayContainer
+{
+    if(!_currentDayContainer){
+        _currentDayContainer = [[DayContainer alloc]init];
+    }
+    return _currentDayContainer;
 }
 
 - (UIDynamicAnimator *)animator
@@ -92,6 +101,13 @@ static const CGSize DROP_SIZE = { 40, 40 };
     return [UIColor blackColor];
 }
 
+-(void)drawCube
+{
+    UIView* cube = [[UIView alloc]initWithFrame:CGRectMake(IPHONE_SCREEN_WIDTH/2 - 40, IPHONE_SCREEN_HEIGHT / 3, 40, 40)];
+    [cube setBackgroundColor:[self randomColor]];
+    [self.myCollection addSubview:cube];
+}
+
 -(void)viewWillAppear:(BOOL)animated{
   [super viewWillAppear:animated];
   [self.myCollection reloadData];
@@ -116,29 +132,52 @@ static const CGSize DROP_SIZE = { 40, 40 };
         }
         else if([type isEqualToString:MOTION_OTHER]){
             [counter stopCount];
-            //Record* record = [[Record alloc]init];
+            Record* record = [[Record alloc]init];
+            record.recordID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
+            record.endTime =  [[NSNumber alloc]initWithDouble:counter.endTime];
+            record.endTime = [[NSNumber alloc]initWithDouble:counter.startTime];
+            record.recordDescription = @"Well,Test Data";
+            //[Record addRecord:record belongsToDate:self.currentDayContainer.date];
             //NSTimeInterval duration = counter.duration;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self drop];
             });
+            NSLog(@"%@",[[[DayContainer getAllDayContainer] firstObject]valueForKey:@"record"]);
         }
     }];
     [montion startMonitor];
     collectionCellConfigure configureBlock = ^(id cell,id item,NSInteger idx){
         ItemCell* itemcell = (ItemCell*)cell;
-        NSString* text = @"testing";
-        [itemcell setText:text];
+        NSDictionary* dayContainerDic = (NSDictionary*)item;
+        UILabel* recordCount = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, IPHONE_SCREEN_WIDTH, 200)];
+        NSString* count = [NSString stringWithFormat:@"%lu",(unsigned long)[[dayContainerDic objectForKey:@"record" ] count]];
+        [recordCount setTextColor:[UIColor whiteColor]];
+        [recordCount setText:count];
+        [itemcell addSubview:recordCount];
+        NSString* date = [dayContainerDic objectForKey:@"date"];
+        UILabel* title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, IPHONE_SCREEN_WIDTH, 80)];
+        [title setFont:[UIFont fontWithName:@"Helvetica" size:27]];
+        [title setText:date];
+        [title setTextColor:[UIColor whiteColor]];
+        [itemcell addSubview:title];
         [itemcell setBackgroundColor:[UIColor blackColor]];
     };
-    DayContainer* dayContainer = [[DayContainer alloc]init];
-    dayContainer.dayID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
+    
+    DataAbstract* da = [DataAbstract sharedData];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    dayContainer.date = [dateFormatter stringFromDate:[NSDate date]];
-    dayContainer.record = @[];
-    [DayContainer addDayContainer:dayContainer];
+    NSDictionary* todayContainer = [da searchItem:@"date" value:[dateFormatter stringFromDate:[NSDate date]]];
+    if(!todayContainer){
+        DayContainer* dayContainer = [[DayContainer alloc]init];
+        dayContainer.dayID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
+        dayContainer.date = [dateFormatter stringFromDate:[NSDate date]];
+        dayContainer.record = [[NSMutableArray alloc]initWithCapacity:0];
+        self.currentDayContainer = [DayContainer addDayContainer:dayContainer];
+    }
     
+#warning Performance Issue
     self.results = [DayContainer getAllDayContainer];
+    [self.currentDayContainer setValuesForKeysWithDictionary:[self.results firstObject]];
     self.recordDataSource = [[ArrayDataSource alloc]initWithItems:self.results cellIdentifier:@"cell" cellConfigurateBlock:configureBlock];
     self.myCollection.dataSource = self.recordDataSource;
     

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DataAbstract.h"
 
-@interface Record : NSObject
+@interface Record : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSNumber*  recordID;
 @property (nonatomic, strong) NSNumber * endTime;
