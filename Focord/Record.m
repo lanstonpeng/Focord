@@ -9,6 +9,7 @@
 #import "Record.h"
 #import "DayContainer.h"
 #define DAYCONTAINER_DATE @"date"
+
 @implementation Record
 +(void)addRecord:(Record*)record belongsToDate:(NSString*)dateString
 {

@@ -15,9 +15,11 @@
 @property (nonatomic, strong) NSString * date;
 @property (nonatomic, strong) NSMutableArray *record;
 
-+ (DayContainer*)addDayContainer:(DayContainer*)dayContainer;
+
++ (DayContainer*)dictionary2DayContainer:(NSDictionary*)dic;
++ (void)addDayContainer:(DayContainer*)dayContainer;
 + (void)removeDayContainer:(NSNumber*)dayID;
-+ (void)searchDayContainer:(NSNumber*)dayID;
++ (NSArray*)searchDayContainer:(NSString*)key withValue:(NSString*)value;
 + (void)updateDayContainer:(NSNumber*)dayID withDayContainer:(DayContainer*)dayContainer;
 + (NSArray*)getAllDayContainer;
 @end

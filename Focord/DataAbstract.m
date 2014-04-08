@@ -70,17 +70,17 @@
     }
     return YES;
 }
--(id)searchItem:(NSString*)key value:(NSString *)value
+-(NSMutableArray*)searchItem:(NSString*)key value:(NSString *)value
 {
-    NSArray* allResults = [self getAllItem];
-    for(NSDictionary* dic in allResults){
+    NSMutableArray* allResults = [[NSMutableArray alloc]init];
+    for(NSDictionary* dic in [self getAllItem]){
         if([[dic valueForKey:key] isEqualToString:value]){
-            return dic;
+            [allResults addObject:dic];
         }
     }
-    return nil;
+    return allResults;
 }
--(id)getAllItem
+-(NSMutableArray*)getAllItem
 {
     if(![self.dayContainerData firstObject]){
         NSString* docPath = [self getFilePath];

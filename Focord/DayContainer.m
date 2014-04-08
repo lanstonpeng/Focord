@@ -9,22 +9,39 @@
 #import "Record.h"
 #import "objc/runtime.h"
 @implementation DayContainer
-+ (DayContainer*)addDayContainer:(DayContainer*)dayContainer{
+
++ (DayContainer*)dictionary2DayContainer:(NSDictionary*)dic{
+    DayContainer* dayContainer = [[DayContainer alloc]init];
+    dayContainer.dayID = [dic objectForKey:@"dayID"];
+    dayContainer.date  =[dic objectForKey:@"date"];
+    dayContainer.record  =[dic objectForKey:@"record"];
+    return dayContainer;
+}
++ (void)addDayContainer:(DayContainer*)dayContainer{
     DataAbstract* da = [DataAbstract sharedData];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    if(! (dic = [da searchItem:@"date" value:dayContainer.date]))
+    if([[da searchItem:@"date" value:dayContainer.date] count] == 0)
     {
         [da addItem:dayContainer];
     }
-    return dayContainer;
 }
 
-+ (void)searchDayContainer:(NSNumber*)dayID{
++ (NSArray*)searchDayContainer:(NSString*)key withValue:(NSString*)value{
+    NSMutableArray* results = [[NSMutableArray alloc]init];
+    DataAbstract* da = [DataAbstract sharedData];
+    for(NSDictionary* item in [da searchItem:key value:value]){
+        DayContainer* dayContainer = [DayContainer dictionary2DayContainer:item];
+        [results addObject:dayContainer];
+    }
+    return results;
 }
 + (NSArray*)getAllDayContainer{
-    
     DataAbstract* da = [DataAbstract sharedData];
-    return [da getAllItem];
+    NSMutableArray* allItems = [[NSMutableArray alloc]init];
+    for(NSDictionary* item in [da getAllItem]){
+        DayContainer* dayContainer = [DayContainer dictionary2DayContainer:item];
+        [allItems addObject:dayContainer];
+    }
+    return allItems;
 }
 + (void)updateDayContainer:(NSNumber*)dayID withDayContainer:(DayContainer*)dayContainer{}
 + (void)removeDayContainer:(NSNumber*)dayID

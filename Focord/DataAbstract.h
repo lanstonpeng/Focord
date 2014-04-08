@@ -14,7 +14,7 @@
 -(BOOL)addItem:(id)item;
 -(BOOL)removeItem:(NSDictionary*)item;
 -(BOOL)updateItem:(id)dayContainer;
--(id)searchItem:(NSString*)key value:(NSString*)value;
+-(NSMutableArray*)searchItem:(NSString*)key value:(NSString*)value;
 -(id)getAllItem;
 -(void)removeDataFile;
 -(void)flushData;
