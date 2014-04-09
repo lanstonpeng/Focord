@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ItemCell : UICollectionViewCell
-@property(weak ,nonatomic)IBOutlet UILabel* label;
--(void)setText:(NSString *)text;
+@property (strong, nonatomic) IBOutlet UILabel *countLabel;
+@property(strong    ,nonatomic)IBOutlet UILabel* timeLabel;
+
+-(void)configureCell;
 @end

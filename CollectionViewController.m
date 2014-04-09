@@ -35,6 +35,7 @@
 @property (strong,nonatomic)UIView* currentCubeView;
 @property (strong,nonatomic)ItemCell* currentItemCell;
 @property (nonatomic)BOOL isCouting;
+
 @end
 @implementation CollectionViewController
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
@@ -73,8 +74,8 @@ static const CGSize DROP_SIZE = { 40, 40 };
 - (UIDynamicAnimator *)animator
 {
     if (!_animator) {
-        //_animator =[[UIDynamicAnimator alloc]initWithCollectionViewLayout:self.layout];
-        _animator =[[UIDynamicAnimator alloc]initWithReferenceView:self.myCollection];
+        _animator =[[UIDynamicAnimator alloc]initWithCollectionViewLayout:self.layout];
+        //_animator =[[UIDynamicAnimator alloc]initWithReferenceView:self.myCollection];
         _animator.delegate = self;
     }
     return _animator;
@@ -147,7 +148,7 @@ static const CGSize DROP_SIZE = { 40, 40 };
 - (UIView*)generateCube:(Record*)record
 {
     int duration = [record.endTime intValue] - [record.startTime intValue];
-    UIView* cube = [[UIView alloc]initWithFrame:CGRectMake(arc4random()% 300 , 0, 20 + duration, 20 + duration)];
+    UIView* cube = [[UIView alloc]initWithFrame:CGRectMake(arc4random()% 300 , arc4random()% 300, 20 + duration, 20 + duration)];
     CGFloat cubeWidth =cube.frame.size.width;
     CGFloat cubeHeight = cube.frame.size.height;
     UILabel* durationLabel  = [[UILabel alloc]initWithFrame:CGRectMake(cubeWidth * 0.4, cubeWidth*0.4, cubeWidth* 0.6, cubeHeight*0.6)];
@@ -171,6 +172,7 @@ static const CGSize DROP_SIZE = { 40, 40 };
     UICollectionViewFlowLayout* customLayout = [[collectionFlowLayout alloc]init];
     self.myCollection.collectionViewLayout = customLayout;
     [self.myCollection setPagingEnabled:YES];
+    [self.myCollection setBounces:NO];
     self.isCouting = NO;
     //Motion
     MotionMonitor * montion = [[MotionMonitor alloc]init];
@@ -208,27 +210,26 @@ static const CGSize DROP_SIZE = { 40, 40 };
     collectionCellConfigure configureBlock = ^(id cell,id item,NSInteger idx){
         ItemCell* itemcell = (ItemCell*)cell;
         DayContainer* cellDayContainer = (DayContainer*)item;
-        UILabel* recordCount = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, IPHONE_SCREEN_WIDTH, 200)];
-        NSString* count = [NSString stringWithFormat:@"%lu",(unsigned long)[cellDayContainer.record count]];
         
+        [itemcell configureCell];
+        for(UIView* lastView in self.records){
+            [lastView removeFromSuperview];
+            [self.dropBehaviour removeItem:lastView];
+        }
         for(Record* recordItem in cellDayContainer.record){
                 UIView* temp = [self generateCube:recordItem];
-                //[self.dropBehaviour addItem:temp];
+                //NSLog(@"->%d,%@",[recordItem.endTime intValue] - [recordItem.startTime intValue],temp);
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.dropBehaviour addItem:temp];
                 });
+                [self.records addObject:temp];
                 [itemcell addSubview:temp];
         }
-        [recordCount setTextColor:[UIColor whiteColor]];
-        [recordCount setText:count];
-        [itemcell addSubview:recordCount];
+        
+        NSString* count = [NSString stringWithFormat:@"%lu",(unsigned long)[cellDayContainer.record count]];
+        itemcell.countLabel.text = count;
         NSString* date = cellDayContainer.date;
-        UILabel* title = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, IPHONE_SCREEN_WIDTH, 80)];
-        [title setFont:[UIFont fontWithName:@"Helvetica" size:37]];
-        [title setText:date];
-        [title setTextColor:[UIColor whiteColor]];
-        [itemcell addSubview:title];
-        [itemcell setBackgroundColor:[UIColor blackColor]];
+        itemcell.timeLabel.text = date;
     };
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

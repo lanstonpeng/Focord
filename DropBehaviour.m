@@ -7,6 +7,8 @@
 //
 
 #import "DropBehaviour.h"
+#import "DeviceInfo.h"
+
 @interface DropBehaviour()
 @property (strong, nonatomic) UIGravityBehavior *gravity;
 @property (strong, nonatomic) UICollisionBehavior *collider;
@@ -26,7 +28,8 @@
 {
     if (!_collider) {
         _collider = [[UICollisionBehavior alloc] init];
-        _collider.translatesReferenceBoundsIntoBoundary = YES;
+        //_collider.translatesReferenceBoundsIntoBoundary = YES;
+        [_collider addBoundaryWithIdentifier:@"path" forPath:[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, IPHONE_SCREEN_WIDTH, IPHONE_SCREEN_HEIGHT)]];
     }
     return _collider;
 }
