@@ -14,11 +14,10 @@
 +(void)addRecord:(Record*)record belongsToDate:(NSString*)dateString
 {
     DataAbstract* da = [DataAbstract sharedData];
-    id result = [da searchItem:DAYCONTAINER_DATE value:dateString];
-    if(result){
+    NSMutableArray* result = [da searchItem:DAYCONTAINER_DATE value:dateString];
+    if([result count]){
         DayContainer* dayContainer = [[DayContainer alloc]init];
-        result = (NSDictionary*)result;
-        [dayContainer setValuesForKeysWithDictionary:result];
+        [dayContainer setValuesForKeysWithDictionary:result[0]];
         [dayContainer.record insertObject:record atIndex:0];
         [da updateItem:dayContainer];
         [da flushData];

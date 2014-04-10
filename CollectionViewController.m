@@ -34,10 +34,13 @@
 @property (strong,nonatomic)NSTimer* timer;
 @property (strong,nonatomic)UIView* currentCubeView;
 @property (strong,nonatomic)ItemCell* currentItemCell;
-@property (nonatomic)BOOL isCouting;
-
+@property (nonatomic)BOOL isCounting;
+@property (strong,nonatomic)UITapGestureRecognizer* tapGesture;
+@property (strong,nonatomic)UIPanGestureRecognizer* panGesture;
 @end
 @implementation CollectionViewController
+static CGRect cacheFrame;
+
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
 }
 static const CGSize DROP_SIZE = { 40, 40 };
@@ -86,9 +89,32 @@ static const CGSize DROP_SIZE = { 40, 40 };
         [self.dropBehaviour removeItem:view];
     }
 }
+
+- (UIPanGestureRecognizer *)panGesture{
+    if(!_panGesture){
+        _panGesture  = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+    }
+    return _panGesture;
+}
 -(void)handleSingleTap
 {
     NSLog(@"taping");
+}
+-(void)handlePan:(UIPanGestureRecognizer*)recognizer{
+    NSLog(@"paning%@",recognizer.view);
+    if(recognizer.state == UIGestureRecognizerStateBegan){
+        CGRect frame = recognizer.view.frame;
+        cacheFrame = frame;
+    }
+    else if(recognizer.state == UIGestureRecognizerStateChanged){
+        CGRect frame = cacheFrame;
+        CGPoint point = [recognizer translationInView:recognizer.view];
+        frame.size.height = (point.y / frame.size.height) * 400;
+        recognizer.view.frame = frame;
+    }
+    else if(recognizer.state == UIGestureRecognizerStateEnded){
+        recognizer.view.frame = cacheFrame;
+    }
 }
 - (void)drop
 {
@@ -123,14 +149,14 @@ static const CGSize DROP_SIZE = { 40, 40 };
 }
 -(void)drawCube
 {
-    if(!self.isCouting){
+    if(!self.isCounting){
         UIView* cubeView = [[UIView alloc]initWithFrame:CGRectMake(IPHONE_SCREEN_WIDTH/2 - 20, IPHONE_SCREEN_HEIGHT / 3, 40, 40)];
         [cubeView setBackgroundColor:[self randomColor]];
         UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleSingleTap)];
         [cubeView addGestureRecognizer:singleTap];
         [self.myCollection addSubview:cubeView];
         self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(bigifyCube:) userInfo:@{@"view":cubeView} repeats:YES];
-        self.isCouting = YES;
+        self.isCounting = YES;
         self.currentCubeView = cubeView;
         [[NSRunLoop mainRunLoop]addTimer:self.timer forMode:NSDefaultRunLoopMode];
     }
@@ -143,6 +169,8 @@ static const CGSize DROP_SIZE = { 40, 40 };
     frame.origin = cubeView.frame.origin;
     frame.size.width = cubeView.frame.size.width + 1;
     frame.size.height = cubeView.frame.size.height + 1;
+    frame.origin.x = frame.origin.x - 0.5;
+    frame.origin.y = frame.origin.y - 0.5;
     [cubeView setFrame:frame];
 }
 - (UIView*)generateCube:(Record*)record
@@ -156,6 +184,7 @@ static const CGSize DROP_SIZE = { 40, 40 };
     [durationLabel setTextColor:[UIColor whiteColor]];
     [cube addSubview:durationLabel];
     [cube setBackgroundColor:[self randomColor]];
+    [cube addGestureRecognizer:self.panGesture];
     return cube;
 }
 
@@ -173,7 +202,7 @@ static const CGSize DROP_SIZE = { 40, 40 };
     self.myCollection.collectionViewLayout = customLayout;
     [self.myCollection setPagingEnabled:YES];
     [self.myCollection setBounces:NO];
-    self.isCouting = NO;
+    self.isCounting = NO;
     //Motion
     MotionMonitor * montion = [[MotionMonitor alloc]init];
     Counter* counter = [[Counter alloc]init];
@@ -189,18 +218,35 @@ static const CGSize DROP_SIZE = { 40, 40 };
         }
         else if([type isEqualToString:MOTION_OTHER]){
             [counter stopCount];
-            self.isCouting = NO;
+            self.isCounting = NO;
             [self.timer invalidate];
             Record* record = [[Record alloc]init];
             record.recordID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
             record.endTime =  [[NSNumber alloc]initWithDouble:counter.endTime];
             record.startTime = [[NSNumber alloc]initWithDouble:counter.startTime];
             record.recordDescription = @"Well,Test Data";
-            //[Record addRecord:record belongsToDate:self.currentDayContainer.date];
-            //NSTimeInterval duration = counter.duration;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self dropCube];
-            });
+            NSTimeInterval duration = counter.duration;
+            //only duration more 30s is count
+            if(self.currentCubeView){
+                if(duration > 30.0){
+                    [Record addRecord:record belongsToDate:self.currentDayContainer.date];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self dropCube];
+                    });
+                }
+                else{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                            //self.currentCubeView.alpha = 0.0;
+                            CGRect cubeFrame = self.currentCubeView.frame;
+                            self.currentCubeView.frame= CGRectMake(cubeFrame.origin.x + cubeFrame.size.width/2, cubeFrame.origin.y  + cubeFrame.size.height/2, 0,0);
+                        } completion:^(BOOL finished) {
+                            [self.currentCubeView removeFromSuperview];
+                        }];
+                    });
+                    //otherwise it should disappear
+                }
+            }
             //NSLog(@"%@",[[[DayContainer getAllDayContainer] firstObject]valueForKey:@"record"]);
         }
     }];
@@ -223,6 +269,7 @@ static const CGSize DROP_SIZE = { 40, 40 };
                     [self.dropBehaviour addItem:temp];
                 });
                 [self.records addObject:temp];
+                //[temp addGestureRecognizer:self.panGesture];
                 [itemcell addSubview:temp];
         }
         
