@@ -12,6 +12,8 @@
 @property(nonatomic)NSTimeInterval startTime;
 @property(nonatomic)NSTimeInterval endTime;
 @property(nonatomic)NSInteger duration;
+@property(nonatomic)BOOL isCounting;
++(instancetype)sharedConter;
 -(void)startCount;
 -(void)stopCount;
 @end

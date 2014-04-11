@@ -10,6 +10,8 @@
 @interface MotionMonitor()
 @property (strong,nonatomic)id notifier;
 @end
+
+#define NOTIFICATION_NAME @"montionDetect"
 @implementation MotionMonitor
 -(CMMotionManager*)motionManager{
   if(!_motionManager){
@@ -28,7 +30,6 @@
 {
   NSOperationQueue* queue = [[NSOperationQueue alloc]init];
   NSMutableArray* acelerometer = [[NSMutableArray alloc]init];
-  NSLog(@"%@",self.motionManager);
   [self.motionManager startAccelerometerUpdatesToQueue:queue withHandler:^(CMAccelerometerData *latestAcc, NSError *error) {
     if (error) {
       [self.motionManager stopAccelerometerUpdates];
@@ -38,22 +39,22 @@
     acelerometer[2] = [NSString stringWithFormat:@"%0.2f",latestAcc.acceleration.z];
     double z = latestAcc.acceleration.z;
     if(z < -0.95 && z > -1.05){
-      [self.notifier postNotificationName:@"motionDetect" object:nil userInfo:@{
-                                                                                @"type":MOTION_UP
-                                                                                }];
+      [self.notifier postNotificationName:NOTIFICATION_NAME object:self userInfo:@{ @"type":MOTION_UP}];
     }
     else{
-      [self.notifier postNotificationName:@"motionDetect" object:self userInfo:@{
-                                                                                 @"type":MOTION_OTHER
-                                                                                 }];
+      [self.notifier postNotificationName:NOTIFICATION_NAME object:self userInfo:@{ @"type":MOTION_OTHER }];
     }
   }];
 }
 -(void)addListener:(id)observer usingBlock:(void (^)(NSNotification *))block
 {
-  [self.notifier addObserverForName:@"motionDetect" object:nil queue:nil usingBlock:^(NSNotification* n){
+  [self.notifier addObserverForName:NOTIFICATION_NAME object:nil queue:nil usingBlock:^(NSNotification* n){
     block(n);
   }];
+}
+-(void)addListenerBySelector:(SEL)sel
+{
+    [self.notifier addObserver:nil selector:sel name:NOTIFICATION_NAME object:nil];
 }
 /*
 -(void)sucker:(NSNotification*)notification

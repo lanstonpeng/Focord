@@ -19,6 +19,8 @@
 #import "Record.h"
 #import "DeviceInfo.h"
 
+
+#define DEBUG_MODE 1
 #define RECORD_MOTION @"up"
 #define DATE_FORMATE @"yyyy-MM-dd"
 
@@ -34,9 +36,9 @@
 @property (strong,nonatomic)NSTimer* timer;
 @property (strong,nonatomic)UIView* currentCubeView;
 @property (strong,nonatomic)ItemCell* currentItemCell;
-@property (nonatomic)BOOL isCounting;
 @property (strong,nonatomic)UITapGestureRecognizer* tapGesture;
 @property (strong,nonatomic)UIPanGestureRecognizer* panGesture;
+@property (strong,nonatomic)Counter* counter;
 @end
 @implementation CollectionViewController
 static CGRect cacheFrame;
@@ -149,14 +151,16 @@ static const CGSize DROP_SIZE = { 40, 40 };
 }
 -(void)drawCube
 {
-    if(!self.isCounting){
+    if(!self.counter.isCounting){
+        [self.counter startCount];
         UIView* cubeView = [[UIView alloc]initWithFrame:CGRectMake(IPHONE_SCREEN_WIDTH/2 - 20, IPHONE_SCREEN_HEIGHT / 3, 40, 40)];
+        UILabel* indicator = [[UILabel alloc]init];
         [cubeView setBackgroundColor:[self randomColor]];
+        [cubeView addSubview:indicator];
         UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleSingleTap)];
         [cubeView addGestureRecognizer:singleTap];
         [self.myCollection addSubview:cubeView];
         self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(bigifyCube:) userInfo:@{@"view":cubeView} repeats:YES];
-        self.isCounting = YES;
         self.currentCubeView = cubeView;
         [[NSRunLoop mainRunLoop]addTimer:self.timer forMode:NSDefaultRunLoopMode];
     }
@@ -165,6 +169,12 @@ static const CGSize DROP_SIZE = { 40, 40 };
 -(void)bigifyCube:(id)sender{
     NSTimer* timer = (NSTimer*)sender;
     UIView* cubeView= [timer.userInfo objectForKey:@"view"];
+    UILabel* indicator = cubeView.subviews[0];
+    //indicator.text = [NSString stringWithFormat:@"%d",(int)cubeView.frame.size.width + 1];
+    indicator.text =[NSString stringWithFormat:@"%lu",self.counter.duration];
+    indicator.frame = CGRectMake(cubeView.frame.size.width/2 - 10, cubeView.frame.size.height/2 - 10, 20, 20);
+    [indicator sizeToFit];
+    indicator.textColor=[UIColor whiteColor];
     CGRect frame;
     frame.origin = cubeView.frame.origin;
     frame.size.width = cubeView.frame.size.width + 1;
@@ -184,7 +194,6 @@ static const CGSize DROP_SIZE = { 40, 40 };
     [durationLabel setTextColor:[UIColor whiteColor]];
     [cube addSubview:durationLabel];
     [cube setBackgroundColor:[self randomColor]];
-    [cube addGestureRecognizer:self.panGesture];
     return cube;
 }
 
@@ -192,47 +201,56 @@ static const CGSize DROP_SIZE = { 40, 40 };
   [super viewWillAppear:animated];
   [self.myCollection reloadData];
 }
-
+-(void)youku:(id)sender
+{
+    NSLog(@"youku");
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"view did load");
     //self.myCollection.alwaysBounceHorizontal = YES;
     self.myCollection.scrollEnabled = YES;
     UICollectionViewFlowLayout* customLayout = [[collectionFlowLayout alloc]init];
     self.myCollection.collectionViewLayout = customLayout;
     [self.myCollection setPagingEnabled:YES];
     [self.myCollection setBounces:NO];
-    self.isCounting = NO;
     //Motion
     MotionMonitor * montion = [[MotionMonitor alloc]init];
-    Counter* counter = [[Counter alloc]init];
-    
+    self.counter = [Counter sharedConter];
+    [montion addListenerBySelector:@selector(youku:)];
     [montion addListener:self usingBlock:^(NSNotification * notification) {
         NSString* type = [notification.userInfo objectForKey:@"type"];
         if([type isEqualToString:MOTION_UP]){
-            [counter startCount];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self drawCube];
             });
             //TODO ,save data
         }
         else if([type isEqualToString:MOTION_OTHER]){
-            [counter stopCount];
-            self.isCounting = NO;
+            [self.counter stopCount];
             [self.timer invalidate];
             Record* record = [[Record alloc]init];
             record.recordID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
-            record.endTime =  [[NSNumber alloc]initWithDouble:counter.endTime];
-            record.startTime = [[NSNumber alloc]initWithDouble:counter.startTime];
+            record.endTime =  [[NSNumber alloc]initWithDouble:self.counter.endTime];
+            record.startTime = [[NSNumber alloc]initWithDouble:self.counter.startTime];
             record.recordDescription = @"Well,Test Data";
-            NSTimeInterval duration = counter.duration;
+            NSTimeInterval duration = self.counter.duration;
             //only duration more 30s is count
             if(self.currentCubeView){
                 if(duration > 30.0){
-                    [Record addRecord:record belongsToDate:self.currentDayContainer.date];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self dropCube];
-                    });
+                    #ifdef DEBUG_MODE
+                    if(duration < 40){
+                    #endif
+                        
+                        [Record addRecord:record belongsToDate:self.currentDayContainer.date];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self dropCube];
+                        });
+                        
+                    #ifdef DEBUG_MODE
+                    }
+                    #endif
                 }
                 else{
                     dispatch_async(dispatch_get_main_queue(), ^{
@@ -269,7 +287,6 @@ static const CGSize DROP_SIZE = { 40, 40 };
                     [self.dropBehaviour addItem:temp];
                 });
                 [self.records addObject:temp];
-                //[temp addGestureRecognizer:self.panGesture];
                 [itemcell addSubview:temp];
         }
         
@@ -277,6 +294,7 @@ static const CGSize DROP_SIZE = { 40, 40 };
         itemcell.countLabel.text = count;
         NSString* date = cellDayContainer.date;
         itemcell.timeLabel.text = date;
+        [self rearrangeCubes];
     };
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -298,7 +316,25 @@ static const CGSize DROP_SIZE = { 40, 40 };
     //[da removeDataFile];
     //[DayContainer searchDayContainer:@1];
 }
--(void)refreshData
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+}
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+}
+
+//I need an algorithm
+-(void)rearrangeCubes
 {
+    [self.records sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        UIView* v1 = (UIView*)obj1;
+        UIView* v2 = (UIView*)obj2;
+        if(v1.frame.size.height > v2.frame.size.height){
+            return NSOrderedAscending;
+        }
+        else{
+            return NSOrderedDescending;
+        }
+    }];
 }
 @end

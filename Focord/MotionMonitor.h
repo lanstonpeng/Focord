@@ -15,4 +15,5 @@
 -(CMMotionManager*)motionManager;
 -(void)startMonitor;
 -(void)addListener:(id)observer usingBlock:(void (^)(NSNotification *))block;
+-(void)addListenerBySelector:(SEL)sel;
 @end
