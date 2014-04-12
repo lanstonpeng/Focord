@@ -8,15 +8,24 @@
 
 #import "ItemCell.h"
 #import "DeviceInfo.h"
-
-@interface ItemCell()
-@end
 @implementation ItemCell
+- (UILabel *)timeLabel{
+    if(_timeLabel){
+        _timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0,0, IPHONE_SCREEN_WIDTH, 60)];
+        _timeLabel.textColor = [UIColor blackColor];
+        _timeLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:24.0];
+    }
+    return _timeLabel;
+}
+- (UILabel *)countLabel{
+    if(!_countLabel){
+        _countLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 60, 50, 50)];
+        _countLabel.textColor = [UIColor blackColor];
+    }
+    return _countLabel;
+}
 -(void)configureCell{
-    self.backgroundColor = [UIColor blackColor];
-    self.countLabel.textColor = [UIColor whiteColor];
-    self.timeLabel.textColor = [UIColor whiteColor];
-    self.timeLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:24.0];
-    self.timeLabel.frame =CGRectMake(0, 0, IPHONE_SCREEN_WIDTH, 80);
+    [self addSubview:self.timeLabel];
+    [self addSubview:self.countLabel];
 }
 @end

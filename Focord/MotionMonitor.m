@@ -77,8 +77,8 @@
     [self.notifier removeObserver:observer name:NOTIFICATION_NAME object:self];
 }
 -(void)stopMonitor{
-    [self.notifier postNotificationName:NOTIFICATION_NAME object:self userInfo:@{ @"type":MOTION_OTHER,@"timing":TIMING_LASTCALL }];
     [self.motionManager stopAccelerometerUpdates];
+    [self.notifier postNotificationName:NOTIFICATION_NAME object:self userInfo:@{ @"type":MOTION_OTHER,@"timing":TIMING_LASTCALL }];
     for (id observer in self.currentObservers) {
         [self removeListener:observer];
     }

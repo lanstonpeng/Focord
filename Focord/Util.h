@@ -11,4 +11,5 @@
 @interface Util : NSObject
 +(void)openUIManagedDocument:(void (^)(UIManagedDocument* document))completionHandler;
 +(UIManagedDocument*)getUIManagedDocument;
++(UIColor*)randomColor;
 @end

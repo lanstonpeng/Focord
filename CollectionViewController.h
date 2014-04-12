@@ -11,6 +11,6 @@
 #import <AudioToolbox/AudioServices.h>
 #import "objc/runtime.h"
 @interface CollectionViewController : UIViewController<UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UIDynamicAnimatorDelegate>
-@property (weak, nonatomic) IBOutlet UICollectionView *myCollection;
+@property (strong, nonatomic)UICollectionView *myCollection;
 @property (strong,nonatomic)NSManagedObjectContext* managedObjectContext;
 @end

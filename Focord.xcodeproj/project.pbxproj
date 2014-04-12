@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9D0B877718E2781A0012E9C4 /* DataAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0B877618E2781A0012E9C4 /* DataAbstract.m */; };
+		9D0EF13718F95B330097919C /* CubeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D0EF13618F95B330097919C /* CubeView.m */; };
 		9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D160C2C18E00EB0003A2289 /* DropBehaviour.m */; };
 		9D1F1D7418D0AD6A00684401 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D1F1D7318D0AD6A00684401 /* CoreData.framework */; };
+		9D27410118F93423002A250C /* CubeGestureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D27410018F93423002A250C /* CubeGestureHandler.m */; };
+		9D27410518F93D36002A250C /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D27410418F93D36002A250C /* Config.m */; };
 		9D463BFD18CEABA80061A072 /* ItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D463BFC18CEABA80061A072 /* ItemCell.m */; };
 		9D4DBBDD18DD318400DFBC68 /* ArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D4DBBDC18DD318400DFBC68 /* ArrayDataSource.m */; };
 		9D5EF8F418B1A4CD00CFD3F6 /* collectionFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D5EF8F318B1A4CD00CFD3F6 /* collectionFlowLayout.m */; };
@@ -27,7 +30,6 @@
 		9DA2EED018A4CF040077312E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DA2EECE18A4CF040077312E /* InfoPlist.strings */; };
 		9DA2EED218A4CF040077312E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA2EED118A4CF040077312E /* main.m */; };
 		9DA2EED618A4CF040077312E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA2EED518A4CF040077312E /* AppDelegate.m */; };
-		9DA2EED918A4CF040077312E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DA2EED718A4CF040077312E /* Main.storyboard */; };
 		9DA2EEDE18A4CF040077312E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DA2EEDD18A4CF040077312E /* Images.xcassets */; };
 		9DA2EEE518A4CF040077312E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2EEE418A4CF040077312E /* XCTest.framework */; };
 		9DA2EEE618A4CF040077312E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA2EEC518A4CF040077312E /* Foundation.framework */; };
@@ -51,9 +53,15 @@
 /* Begin PBXFileReference section */
 		9D0B877518E2781A0012E9C4 /* DataAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataAbstract.h; sourceTree = "<group>"; };
 		9D0B877618E2781A0012E9C4 /* DataAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataAbstract.m; sourceTree = "<group>"; };
+		9D0EF13518F95B330097919C /* CubeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CubeView.h; sourceTree = "<group>"; };
+		9D0EF13618F95B330097919C /* CubeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CubeView.m; sourceTree = "<group>"; };
 		9D160C2B18E00EB0003A2289 /* DropBehaviour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropBehaviour.h; path = ../DropBehaviour.h; sourceTree = "<group>"; };
 		9D160C2C18E00EB0003A2289 /* DropBehaviour.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropBehaviour.m; path = ../DropBehaviour.m; sourceTree = "<group>"; };
 		9D1F1D7318D0AD6A00684401 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		9D2740FF18F93423002A250C /* CubeGestureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CubeGestureHandler.h; sourceTree = "<group>"; };
+		9D27410018F93423002A250C /* CubeGestureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CubeGestureHandler.m; sourceTree = "<group>"; };
+		9D27410318F93D35002A250C /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		9D27410418F93D36002A250C /* Config.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
 		9D463BFB18CEABA80061A072 /* ItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemCell.h; sourceTree = "<group>"; };
 		9D463BFC18CEABA80061A072 /* ItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemCell.m; sourceTree = "<group>"; };
 		9D4DBBDB18DD318400DFBC68 /* ArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayDataSource.h; sourceTree = "<group>"; };
@@ -85,7 +93,6 @@
 		9DA2EED318A4CF040077312E /* Focord-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Focord-Prefix.pch"; sourceTree = "<group>"; };
 		9DA2EED418A4CF040077312E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9DA2EED518A4CF040077312E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		9DA2EED818A4CF040077312E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9DA2EEDD18A4CF040077312E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9DA2EEE318A4CF040077312E /* FocordTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocordTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DA2EEE418A4CF040077312E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -124,6 +131,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9D0EF13818F95B3C0097919C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9D0EF13518F95B330097919C /* CubeView.h */,
+				9D0EF13618F95B330097919C /* CubeView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		9D160C2E18E00EBE003A2289 /* Animation */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +147,24 @@
 				9D160C2C18E00EB0003A2289 /* DropBehaviour.m */,
 			);
 			name = Animation;
+			sourceTree = "<group>";
+		};
+		9D27410218F9342C002A250C /* GestureHandler */ = {
+			isa = PBXGroup;
+			children = (
+				9D2740FF18F93423002A250C /* CubeGestureHandler.h */,
+				9D27410018F93423002A250C /* CubeGestureHandler.m */,
+			);
+			name = GestureHandler;
+			sourceTree = "<group>";
+		};
+		9D27410618F93D3A002A250C /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				9D27410318F93D35002A250C /* Config.h */,
+				9D27410418F93D36002A250C /* Config.m */,
+			);
+			name = Config;
 			sourceTree = "<group>";
 		};
 		9D5EF8F518B2B82400CFD3F6 /* Layout */ = {
@@ -227,13 +261,15 @@
 		9DA2EECB18A4CF040077312E /* Focord */ = {
 			isa = PBXGroup;
 			children = (
+				9D27410618F93D3A002A250C /* Config */,
 				9D160C2E18E00EBE003A2289 /* Animation */,
 				9D5EF92C18B2DC5D00CFD3F6 /* Util */,
 				9D5EF8F518B2B82400CFD3F6 /* Layout */,
 				9D5EF8FF18B2C53C00CFD3F6 /* Model */,
+				9D27410218F9342C002A250C /* GestureHandler */,
+				9D0EF13818F95B3C0097919C /* View */,
 				9D5EF91618B2C91E00CFD3F6 /* ViewController */,
 				9D5EF91518B2C90F00CFD3F6 /* Monitor */,
-				9DA2EED718A4CF040077312E /* Main.storyboard */,
 				9D463BFB18CEABA80061A072 /* ItemCell.h */,
 				9D463BFC18CEABA80061A072 /* ItemCell.m */,
 				9DA2EEDD18A4CF040077312E /* Images.xcassets */,
@@ -354,7 +390,6 @@
 			files = (
 				9DA2EEDE18A4CF040077312E /* Images.xcassets in Resources */,
 				9DA2EED018A4CF040077312E /* InfoPlist.strings in Resources */,
-				9DA2EED918A4CF040077312E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +414,8 @@
 				9D5EF91418B2C90900CFD3F6 /* LocationMonitor.m in Sources */,
 				9D63022D18D176CE007A53F6 /* Record.m in Sources */,
 				9D160C2D18E00EB0003A2289 /* DropBehaviour.m in Sources */,
+				9D27410118F93423002A250C /* CubeGestureHandler.m in Sources */,
+				9D27410518F93D36002A250C /* Config.m in Sources */,
 				9DE7E36418F282A1009C3806 /* UIDevice+screenType.m in Sources */,
 				9D4DBBDD18DD318400DFBC68 /* ArrayDataSource.m in Sources */,
 				9D5EF8F418B1A4CD00CFD3F6 /* collectionFlowLayout.m in Sources */,
@@ -388,6 +425,7 @@
 				9D0B877718E2781A0012E9C4 /* DataAbstract.m in Sources */,
 				9DA2EED618A4CF040077312E /* AppDelegate.m in Sources */,
 				9D5EF90218B2C5F300CFD3F6 /* Counter.m in Sources */,
+				9D0EF13718F95B330097919C /* CubeView.m in Sources */,
 				9DA2EED218A4CF040077312E /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,14 +455,6 @@
 				9DA2EECF18A4CF040077312E /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		9DA2EED718A4CF040077312E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9DA2EED818A4CF040077312E /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		9DA2EEED18A4CF040077312E /* InfoPlist.strings */ = {

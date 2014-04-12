@@ -24,8 +24,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    
-    //disable device from automatically sleeping
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    CollectionViewController *cvc = [[CollectionViewController alloc]init];
+    self.window.rootViewController = cvc;
+    [self.window makeKeyAndVisible];
     [UIApplication sharedApplication].idleTimerDisabled = YES;
     return YES;
 }

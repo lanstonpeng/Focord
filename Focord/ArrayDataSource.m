@@ -22,8 +22,8 @@
 }
 - (id)initWithItems:(NSArray *)items cellIdentifier:(NSString *)cellIdentifer cellConfigurateBlock:(collectionCellConfigure)collectionConfigrueBlock
 {
-    self = [super init];
-    if (self) {
+    if (self = [super init])
+    {
         self.results = items;
         self.cellIdentifier = cellIdentifer;
         self.configureBlock = collectionConfigrueBlock;
@@ -38,6 +38,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     id cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
+    NSLog(@"cellForItemAtIndexPath %@",cell);
     NSInteger idx = indexPath.row;
     self.configureBlock(cell,[self.results objectAtIndex:idx],idx);
     return cell;
