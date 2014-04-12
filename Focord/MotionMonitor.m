@@ -9,14 +9,29 @@
 #import "MotionMonitor.h"
 @interface MotionMonitor()
 @property (strong,nonatomic)id notifier;
+@property (strong,nonatomic)NSMutableArray* currentObservers;
 @end
 
-#define NOTIFICATION_NAME @"montionDetect"
+
 @implementation MotionMonitor
++(instancetype)sharedMotionManager{
+    static MotionMonitor* instance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[MotionMonitor alloc]init];
+    });
+    return instance;
+}
+- (NSMutableArray *)currentObservers{
+    if(!_currentObservers){
+        _currentObservers = [[NSMutableArray alloc]init];
+    }
+    return _currentObservers;
+}
 -(CMMotionManager*)motionManager{
   if(!_motionManager){
     _motionManager = [[CMMotionManager alloc]init];
-    _motionManager.accelerometerUpdateInterval = 0.9;
+    _motionManager.accelerometerUpdateInterval = 1.0;
   }
   return _motionManager;
 }
@@ -48,18 +63,24 @@
 }
 -(void)addListener:(id)observer usingBlock:(void (^)(NSNotification *))block
 {
-  [self.notifier addObserverForName:NOTIFICATION_NAME object:nil queue:nil usingBlock:^(NSNotification* n){
+  [self.notifier addObserverForName:NOTIFICATION_NAME object:self queue:nil usingBlock:^(NSNotification* n){
     block(n);
   }];
 }
--(void)addListenerBySelector:(SEL)sel
+-(void)addListener:(id)observer withSelector:(SEL)sel
 {
-    [self.notifier addObserver:nil selector:sel name:NOTIFICATION_NAME object:nil];
+    [self.currentObservers addObject:observer];
+    [self.notifier addObserver:observer selector:sel name:NOTIFICATION_NAME object:self];
 }
-/*
--(void)sucker:(NSNotification*)notification
-{
-  NSLog(@"sucker youku");
+-(void)removeListener:(id)observer{
+    //[self.notifier removeObserver:observer]; //remove all notifications
+    [self.notifier removeObserver:observer name:NOTIFICATION_NAME object:self];
 }
-*/
+-(void)stopMonitor{
+    [self.notifier postNotificationName:NOTIFICATION_NAME object:self userInfo:@{ @"type":MOTION_OTHER,@"timing":TIMING_LASTCALL }];
+    [self.motionManager stopAccelerometerUpdates];
+    for (id observer in self.currentObservers) {
+        [self removeListener:observer];
+    }
+}
 @end

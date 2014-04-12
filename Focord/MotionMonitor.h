@@ -10,10 +10,15 @@
 #import <CoreMotion/CoreMotion.h>
 #define MOTION_UP @"up"
 #define MOTION_OTHER @"other"
+#define NOTIFICATION_NAME @"montionDetect"
+#define TIMING_LASTCALL @"lastnotificatoin"
 @interface MotionMonitor : NSObject
 @property (strong,nonatomic) CMMotionManager* motionManager;
++(instancetype)sharedMotionManager;
 -(CMMotionManager*)motionManager;
 -(void)startMonitor;
 -(void)addListener:(id)observer usingBlock:(void (^)(NSNotification *))block;
--(void)addListenerBySelector:(SEL)sel;
+-(void)addListener:(id)observer withSelector:(SEL)sel;
+-(void)removeListener:(id)observer;
+-(void)stopMonitor;
 @end

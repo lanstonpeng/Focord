@@ -39,8 +39,11 @@
 @property (strong,nonatomic)UITapGestureRecognizer* tapGesture;
 @property (strong,nonatomic)UIPanGestureRecognizer* panGesture;
 @property (strong,nonatomic)Counter* counter;
+@property (strong,nonatomic)MotionMonitor* motionMonitor;
+@property (nonatomic)BOOL   isRunningCubeBlock;
 @end
 @implementation CollectionViewController
+
 static CGRect cacheFrame;
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
@@ -151,20 +154,16 @@ static const CGSize DROP_SIZE = { 40, 40 };
 }
 -(void)drawCube
 {
-    if(!self.counter.isCounting){
-        [self.counter startCount];
-        UIView* cubeView = [[UIView alloc]initWithFrame:CGRectMake(IPHONE_SCREEN_WIDTH/2 - 20, IPHONE_SCREEN_HEIGHT / 3, 40, 40)];
-        UILabel* indicator = [[UILabel alloc]init];
-        [cubeView setBackgroundColor:[self randomColor]];
-        [cubeView addSubview:indicator];
-        UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleSingleTap)];
-        [cubeView addGestureRecognizer:singleTap];
-        [self.myCollection addSubview:cubeView];
-        self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(bigifyCube:) userInfo:@{@"view":cubeView} repeats:YES];
-        self.currentCubeView = cubeView;
-        [[NSRunLoop mainRunLoop]addTimer:self.timer forMode:NSDefaultRunLoopMode];
-    }
-    
+    UIView* cubeView = [[UIView alloc]initWithFrame:CGRectMake(IPHONE_SCREEN_WIDTH/2 - 20, IPHONE_SCREEN_HEIGHT / 3, 40, 40)];
+    UILabel* indicator = [[UILabel alloc]init];
+    [cubeView setBackgroundColor:[self randomColor]];
+    [cubeView addSubview:indicator];
+    UITapGestureRecognizer* singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleSingleTap)];
+    [cubeView addGestureRecognizer:singleTap];
+    [self.myCollection addSubview:cubeView];
+    self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(bigifyCube:) userInfo:@{@"view":cubeView} repeats:YES];
+    self.currentCubeView = cubeView;
+    [[NSRunLoop mainRunLoop]addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 -(void)bigifyCube:(id)sender{
     NSTimer* timer = (NSTimer*)sender;
@@ -201,9 +200,73 @@ static const CGSize DROP_SIZE = { 40, 40 };
   [super viewWillAppear:animated];
   [self.myCollection reloadData];
 }
--(void)youku:(id)sender
-{
-    NSLog(@"youku");
+
+
+#pragma Monitor Handler
+-(void)handleMonitor:(id)sender{
+    NSNotification* notification = (NSNotification*)sender;
+    NSString* type = [notification.userInfo objectForKey:@"type"];
+    if([type isEqualToString:MOTION_UP]){
+        if(self.counter.status == CounterStop){
+            [self.counter startCount];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self drawCube];
+            });
+        }
+    }
+    else if([type isEqualToString:MOTION_OTHER]){
+        NSLog(@"isRunningBlock: %d",self.isRunningCubeBlock);
+        
+        if(self.isRunningCubeBlock || self.counter.status == CounterStop){
+            return;
+        }
+        self.isRunningCubeBlock = YES;
+        [self.counter stopCount];
+        [self.timer invalidate];
+        Record* record = [[Record alloc]init];
+        record.recordID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
+        record.endTime =  [[NSNumber alloc]initWithDouble:self.counter.endTime];
+        record.startTime = [[NSNumber alloc]initWithDouble:self.counter.startTime];
+        record.recordDescription = @"Well,Test Data";
+        NSTimeInterval duration = self.counter.duration;
+        //only duration more 30s is count
+        if(self.currentCubeView){
+            if(duration > 5.0){
+        #ifdef DEBUG_MODE
+                if(duration < 6.0){
+        #endif
+                    [Record addRecord:record belongsToDate:self.currentDayContainer.date];
+                    if([(NSString*)[notification.userInfo objectForKey:@"timing"] isEqualToString:TIMING_LASTCALL]){
+                        //[self.recordDataSource updateData:[DayContainer getAllDayContainer]];
+                        //[self.myCollection reloadData];
+                    }
+                    else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self dropCube];
+                        });
+                    }
+                    DayContainer* dc =[DayContainer getAllDayContainer][0];
+                    NSLog(@"Current Data ==> %@",dc.record);
+        #ifdef DEBUG_MODE
+                }
+        #endif
+            }
+            else{
+                //otherwise it should disappear
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                        //self.currentCubeView.alpha = 0.0;
+                        CGRect cubeFrame = self.currentCubeView.frame;
+                        self.currentCubeView.frame= CGRectMake(cubeFrame.origin.x + cubeFrame.size.width/2, cubeFrame.origin.y  + cubeFrame.size.height/2, 0,0);
+                    } completion:^(BOOL finished) {
+                        [self.currentCubeView removeFromSuperview];
+                    }];
+                });
+            }
+        }
+        self.isRunningCubeBlock = NO;
+    }
+
 }
 - (void)viewDidLoad
 {
@@ -215,66 +278,24 @@ static const CGSize DROP_SIZE = { 40, 40 };
     self.myCollection.collectionViewLayout = customLayout;
     [self.myCollection setPagingEnabled:YES];
     [self.myCollection setBounces:NO];
-    //Motion
-    MotionMonitor * montion = [[MotionMonitor alloc]init];
+
+#pragma Motion Stuffs
+    self.motionMonitor = [MotionMonitor sharedMotionManager];
     self.counter = [Counter sharedConter];
-    [montion addListenerBySelector:@selector(youku:)];
-    [montion addListener:self usingBlock:^(NSNotification * notification) {
-        NSString* type = [notification.userInfo objectForKey:@"type"];
-        if([type isEqualToString:MOTION_UP]){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self drawCube];
-            });
-            //TODO ,save data
-        }
-        else if([type isEqualToString:MOTION_OTHER]){
-            [self.counter stopCount];
-            [self.timer invalidate];
-            Record* record = [[Record alloc]init];
-            record.recordID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
-            record.endTime =  [[NSNumber alloc]initWithDouble:self.counter.endTime];
-            record.startTime = [[NSNumber alloc]initWithDouble:self.counter.startTime];
-            record.recordDescription = @"Well,Test Data";
-            NSTimeInterval duration = self.counter.duration;
-            //only duration more 30s is count
-            if(self.currentCubeView){
-                if(duration > 30.0){
-                    #ifdef DEBUG_MODE
-                    if(duration < 40){
-                    #endif
-                        
-                        [Record addRecord:record belongsToDate:self.currentDayContainer.date];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [self dropCube];
-                        });
-                        
-                    #ifdef DEBUG_MODE
-                    }
-                    #endif
-                }
-                else{
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                            //self.currentCubeView.alpha = 0.0;
-                            CGRect cubeFrame = self.currentCubeView.frame;
-                            self.currentCubeView.frame= CGRectMake(cubeFrame.origin.x + cubeFrame.size.width/2, cubeFrame.origin.y  + cubeFrame.size.height/2, 0,0);
-                        } completion:^(BOOL finished) {
-                            [self.currentCubeView removeFromSuperview];
-                        }];
-                    });
-                    //otherwise it should disappear
-                }
-            }
-            //NSLog(@"%@",[[[DayContainer getAllDayContainer] firstObject]valueForKey:@"record"]);
-        }
-    }];
-    [montion startMonitor];
     
 #pragma CollectionView DataSource
     collectionCellConfigure configureBlock = ^(id cell,id item,NSInteger idx){
         ItemCell* itemcell = (ItemCell*)cell;
         DayContainer* cellDayContainer = (DayContainer*)item;
-        
+        if((int)idx > 0){
+            NSLog(@"stop Monitor");
+            [self.motionMonitor stopMonitor];
+        }
+        else{
+            NSLog(@"start Monitor");
+            [self.motionMonitor addListener:self withSelector:@selector(handleMonitor:)];
+            [self.motionMonitor startMonitor];
+        }
         [itemcell configureCell];
         for(UIView* lastView in self.records){
             [lastView removeFromSuperview];
@@ -300,21 +321,24 @@ static const CGSize DROP_SIZE = { 40, 40 };
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:DATE_FORMATE];
     DayContainer* todayContainer = [[DayContainer searchDayContainer:@"date" withValue:[dateFormatter stringFromDate:[NSDate date]]] firstObject];
-    if(!todayContainer){
+    if(!todayContainer){//if there's the first time entering the app in a day, create a new dayContainer
         DayContainer* dayContainer = [[DayContainer alloc]init];
         dayContainer.dayID = [[NSNumber alloc]initWithDouble:NSTimeIntervalSince1970];
         dayContainer.date = [dateFormatter stringFromDate:[NSDate date]];
         dayContainer.record = [[NSMutableArray alloc]initWithCapacity:0];
         [DayContainer addDayContainer:dayContainer];
     }
-    [[UIApplication sharedApplication]setIdleTimerDisabled:YES];
     self.results = [DayContainer getAllDayContainer];
     self.currentDayContainer = [self.results firstObject];
+    
     self.recordDataSource = [[ArrayDataSource alloc]initWithItems:self.results cellIdentifier:@"cell" cellConfigurateBlock:configureBlock];
     self.myCollection.dataSource = self.recordDataSource;
     
+    //prevent app from sleeping
+    [[UIApplication sharedApplication]setIdleTimerDisabled:YES];
+    
+    //DataAbstract* da = [DataAbstract sharedData];
     //[da removeDataFile];
-    //[DayContainer searchDayContainer:@1];
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
 }

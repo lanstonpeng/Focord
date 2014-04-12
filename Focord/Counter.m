@@ -18,7 +18,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         instance = [[Counter alloc]init];
-        instance.isCounting = NO;
+        instance.status = CounterStop;
         instance.hasStart = NO;
     });
     return instance;
@@ -31,7 +31,7 @@
   if(!self.hasStart){
     NSDate* date = [[NSDate alloc]init];
     self.startTime = [date timeIntervalSince1970];
-    self.isCounting = YES;
+    self.status = CounterRunning;
   }
   self.hasStart = YES;
 }
@@ -41,7 +41,7 @@
   self.endTime = [date timeIntervalSince1970];
   if(self.hasStart){
     self.duration = self.endTime - self.startTime;
-    self.isCounting = NO;
+    self.status = CounterStop;
   }
   self.hasStart = NO;
 }

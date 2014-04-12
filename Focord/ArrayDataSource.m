@@ -16,6 +16,10 @@
 @end
 
 @implementation ArrayDataSource
+- (void)updateData:(NSArray*)items
+{
+    self.results = items;
+}
 - (id)initWithItems:(NSArray *)items cellIdentifier:(NSString *)cellIdentifer cellConfigurateBlock:(collectionCellConfigure)collectionConfigrueBlock
 {
     self = [super init];

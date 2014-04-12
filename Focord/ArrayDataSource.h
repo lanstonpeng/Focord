@@ -15,4 +15,5 @@ typedef void (^collectionCellConfigure)(id cell,id item,NSInteger index);
        cellIdentifier:(NSString*)cellIdentifer
  cellConfigurateBlock:(collectionCellConfigure)collectionConfigrueBlock;
 
+- (void)updateData:(NSArray*)items;
 @end
